@@ -161,12 +161,19 @@ tfidf\_lr & 0.9058 & 0.9083 & 224343.9 \\
 
 These averages already suggest the main trade-off. The character n-gram SVM is the strongest overall model, fastText is very close while being substantially faster, and TF-IDF with Logistic Regression is by far the fastest but clearly weaker in accuracy.
 
-\begin{figure}[!t]
+\begin{figure*}[!t]
 \centering
-\includegraphics[width=\columnwidth]{../results/plots/accuracy_by_length_clean.png}
-\caption{Average accuracy on clean text as a function of text length.}
-\label{fig:accuracy_length}
-\end{figure}
+\begin{minipage}[t]{0.48\textwidth}
+\centering
+\includegraphics[width=\linewidth]{../results/plots/accuracy_by_length_clean.png}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.48\textwidth}
+\centering
+\includegraphics[width=\linewidth]{../results/plots/accuracy_by_noise.png}
+\end{minipage}
+\caption{Compact visual summary of the benchmark. Left: average accuracy on clean text as a function of text length. Right: average accuracy by noise condition across models.}
+\label{fig:benchmark_summary}
+\end{figure*}
 
 \subsection{Effect of Text Length}
 
@@ -178,16 +185,9 @@ The strongest pattern in the experiments is the sharp improvement that appears w
     \item \textbf{10 words}: char\_svm reaches 0.994, fastText 0.991, and tfidf\_lr 0.990.
 \end{itemize}
 
-This confirms the central hypothesis of the project: short-text LID becomes significantly harder when the available context drops to only a few words. With 10 words, all three models are highly competitive. With 3 words, the gap between robust models and the lexical baseline becomes much wider.
+This confirms the central hypothesis of the project: short-text LID becomes significantly harder when the available context drops to only a few words. With 10 words, all three models are highly competitive. With 3 words, the gap between robust models and the lexical baseline becomes much wider, which is also visible in Fig.~\ref{fig:benchmark_summary}.
 
 \subsection{Effect of Noise}
-
-\begin{figure}[!t]
-\centering
-\includegraphics[width=\columnwidth]{../results/plots/accuracy_by_noise.png}
-\caption{Average accuracy by noise condition across models.}
-\label{fig:accuracy_noise}
-\end{figure}
 
 Noise has the strongest impact at 3 words. In that setting:
 
@@ -197,7 +197,7 @@ Noise has the strongest impact at 3 words. In that setting:
     \item tfidf\_lr drops from 0.846 to 0.818 and 0.758.
 \end{itemize}
 
-The typo condition is especially harmful for the word-based baseline because a one-character perturbation can destroy a token match. By contrast, character n-grams and fastText retain subword signals and are therefore more robust. At 10 words, the degradation becomes much smaller because the models can compensate using the remaining context.
+The typo condition is especially harmful for the word-based baseline because a one-character perturbation can destroy a token match. By contrast, character n-grams and fastText retain subword signals and are therefore more robust. At 10 words, the degradation becomes much smaller because the models can compensate using the remaining context. The right-hand panel of Fig.~\ref{fig:benchmark_summary} illustrates the same trend in aggregated form.
 
 \subsection{Per-Language Analysis}
 
@@ -228,20 +228,13 @@ The dominant confusions are linguistically plausible. German is sometimes predic
 
 \subsection{Interpretation}
 
-\begin{figure}[!t]
-\centering
-\includegraphics[width=\columnwidth]{../results/plots/speed_by_length.png}
-\caption{Inference speed as a function of text length.}
-\label{fig:speed_length}
-\end{figure}
-
 The results lead to three main conclusions.
 
 First, short-text language identification should not be evaluated only on clean, document-length inputs. A model that performs very well on 10-word snippets can still behave much worse at 3 words.
 
 Second, text representation matters more than classifier sophistication in this setup. The difference between the word-based TF-IDF baseline and the character/subword-based models is substantial under the hardest conditions.
 
-Third, fastText is particularly attractive when a strong performance-speed trade-off is needed. It is not the absolute best model on average, but it performs best or near-best on the 3-word clean and noisy conditions in this experiment while remaining much faster than the SVM.
+Third, fastText is particularly attractive when a strong performance-speed trade-off is needed. It is not the absolute best model on average, but it performs best or near-best on the 3-word clean and noisy conditions in this experiment while remaining much faster than the SVM. The speed results also confirm that TF-IDF with Logistic Regression is the fastest baseline overall, while char\_svm is the slowest of the three tested models.
 
 \section{Conclusion}
 \label{sec:conclusion}
