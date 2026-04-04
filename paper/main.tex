@@ -1,16 +1,12 @@
-\documentclass[10pt,a4paper,twocolumn]{article}
+\documentclass[conference]{IEEEtran}
 
-\usepackage[margin=0.75in]{geometry}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage{lmodern}
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{hyperref}
-\usepackage{float}
 \usepackage{array}
 \usepackage{longtable}
-\usepackage{setspace}
 
 \hypersetup{
     colorlinks=true,
@@ -21,16 +17,18 @@
 
 \title{Language Identification in Very Short Texts:\\
 The Effect of Length and Noise}
-\author{Andrei-Cosmin Achim\\
+\author{
+\IEEEauthorblockN{Andrei-Cosmin Achim}
+\IEEEauthorblockA{
 Transilvania University of Brasov\\
-\texttt{cosmin.achim@student.unitbv.ro}}
+Email: cosmin.achim@student.unitbv.ro
+}
+}
 \date{}
 
 \begin{document}
 
 \maketitle
-\thispagestyle{plain}
-
 \begin{abstract}
 Language identification is a standard preprocessing step in multilingual natural language processing pipelines, but the problem remains difficult when the input is extremely short and noisy. In this paper, I study language identification for short texts in five languages: English, Romanian, French, German, and Spanish. The experiments are designed around controlled text lengths of 3, 5, and 10 words, and around three input conditions: clean text, text without diacritics, and text containing a single synthetic typo. I compare three practical baselines: TF-IDF with Logistic Regression, character n-grams with Linear SVM, and fastText. The results show three consistent patterns. First, performance drops substantially at 3 words for all models. Second, character-based and subword-aware methods are markedly more robust to noise than the word-based baseline. Third, fastText and the character n-gram SVM provide the strongest overall balance between robustness and speed, while TF-IDF with Logistic Regression remains the fastest at inference time. The study provides a reproducible benchmark and a compact experimental setup that highlights the importance of evaluation conditions in short-text language identification.
 \end{abstract}
@@ -82,7 +80,7 @@ The methodology is intentionally simple. Models are trained only on clean texts 
 
 \subsection{Dataset and Preprocessing}
 
-The dataset used in the final experiments is \texttt{agentlans/high-quality-multilingual-sentences}, accessed through Hugging Face.\footnote{\url{https://huggingface.co/datasets/agentlans/high-quality-multilingual-sentences}} From the available language-specific configurations, only EN, RO, FR, DE, and ES are retained. For each language, 2000 examples are sampled after cleaning and filtering.
+The dataset used in the final experiments is the Hugging Face dataset \emph{agentlans/high-quality-multilingual-sentences}.\footnote{\url{https://huggingface.co/datasets/agentlans/}} From the available language-specific configurations, only EN, RO, FR, DE, and ES are retained. For each language, 2000 examples are sampled after cleaning and filtering.
 
 The cleaning stage includes:
 
@@ -146,7 +144,7 @@ The main metrics are:
 
 Table~\ref{tab:overall} summarizes mean test performance across all conditions.
 
-\begin{table}[H]
+\begin{table}[!t]
 \centering
 \caption{Average test performance across all length and noise conditions.}
 \label{tab:overall}
@@ -163,7 +161,7 @@ tfidf\_lr & 0.9058 & 0.9083 & 224343.9 \\
 
 These averages already suggest the main trade-off. The character n-gram SVM is the strongest overall model, fastText is very close while being substantially faster, and TF-IDF with Logistic Regression is by far the fastest but clearly weaker in accuracy.
 
-\begin{figure}[H]
+\begin{figure}[!t]
 \centering
 \includegraphics[width=\columnwidth]{../results/plots/accuracy_by_length_clean.png}
 \caption{Average accuracy on clean text as a function of text length.}
@@ -184,7 +182,7 @@ This confirms the central hypothesis of the project: short-text LID becomes sign
 
 \subsection{Effect of Noise}
 
-\begin{figure}[H]
+\begin{figure}[!t]
 \centering
 \includegraphics[width=\columnwidth]{../results/plots/accuracy_by_noise.png}
 \caption{Average accuracy by noise condition across models.}
@@ -219,7 +217,7 @@ In this setup, French is the most difficult language and German the easiest. Thi
 
 To better understand model behavior beyond aggregate metrics, I also examined the hardest realistic condition in the benchmark: the test split with 3-word texts and one synthetic typo. Under this setting, fastText was the best-performing model, with an accuracy of 0.909. Figure~\ref{fig:confusion_hardest} shows the normalized confusion matrix for this case.
 
-\begin{figure}[H]
+\begin{figure}[!t]
 \centering
 \includegraphics[width=\columnwidth]{../results/error_analysis/fasttext_len3_typo_test_confusion_matrix.png}
 \caption{Normalized confusion matrix for fastText on the hardest condition: 3-word texts with one typo on the test split.}
@@ -230,7 +228,7 @@ The dominant confusions are linguistically plausible. German is sometimes predic
 
 \subsection{Interpretation}
 
-\begin{figure}[H]
+\begin{figure}[!t]
 \centering
 \includegraphics[width=\columnwidth]{../results/plots/speed_by_length.png}
 \caption{Inference speed as a function of text length.}
@@ -263,7 +261,7 @@ The study also has limitations. The benchmark uses only five languages and one p
 
 Future work can extend the benchmark with additional language families, per-language confusion analysis, stronger noise models, and a multilingual transformer baseline. Even in its present form, however, the study provides a reproducible and practically meaningful comparison for language identification on very short noisy texts.
 
-\bibliographystyle{plain}
+\bibliographystyle{IEEEtran}
 \bibliography{references}
 
 \end{document}
