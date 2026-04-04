@@ -1,0 +1,10 @@
+model,model_backend,train_len_bucket,train_noise_type,n_train_examples,train_runtime_sec,training_file_size_mb,model_path
+char_svm,sklearn,3,clean,8000,0.31084801999986666,,results/baselines/models/char_svm_len3.joblib
+char_svm,sklearn,5,clean,8000,0.49693557000045985,,results/baselines/models/char_svm_len5.joblib
+char_svm,sklearn,10,clean,8000,1.0123092370004088,,results/baselines/models/char_svm_len10.joblib
+tfidf_lr,sklearn,3,clean,8000,13.721109364999393,,results/baselines/models/tfidf_lr_len3.joblib
+tfidf_lr,sklearn,5,clean,8000,10.80184310200002,,results/baselines/models/tfidf_lr_len5.joblib
+tfidf_lr,sklearn,10,clean,8000,7.798864506999962,,results/baselines/models/tfidf_lr_len10.joblib
+fasttext,fasttext,3,clean,8000,1.8561292579997826,0.24541187286376953,results/baselines/models/fasttext_len3.bin
+fasttext,fasttext,5,clean,8000,2.533579570999791,0.3466014862060547,results/baselines/models/fasttext_len5.bin
+fasttext,fasttext,10,clean,8000,4.206584148000729,0.6004962921142578,results/baselines/models/fasttext_len10.bin

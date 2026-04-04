@@ -1,0 +1,14 @@
+{
+  "dataset_path": "data/processed/hq_multilingual/processed_dataset.parquet",
+  "models": [
+    "char_svm",
+    "tfidf_lr",
+    "fasttext"
+  ],
+  "train_noise": "clean",
+  "train_len_buckets": [
+    3,
+    5,
+    10
+  ]
+}
